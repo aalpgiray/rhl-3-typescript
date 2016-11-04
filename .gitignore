@@ -1,0 +1,12 @@
+#files
+.DS_Store
+.editorconfig
+npm-debug.log*
+
+#folders
+.tmp
+.idea
+dist
+npm-debug.log
+node_modules
+tests.js

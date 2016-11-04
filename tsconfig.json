@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "target": "es6",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "jsx": "preserve",
+    "allowJs": true,
+    //    "sourceMap": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "allowSyntheticDefaultImports": true
+    //    "noUnusedLocals": true,
+    //    "noImplicitAny": true,
+    //    "forceConsistentCasingInFileNames": true,
+    //    "inlineSources": true,
+    //    "noImplicitReturns": true,
+    //    "noImplicitThis": true,
+    //    "pretty": true,
+    //    "strictNullChecks": true,
+    //    "isolatedModules": false,
+    //    "diagnostics": true,
+    //    "preserveConstEnums": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

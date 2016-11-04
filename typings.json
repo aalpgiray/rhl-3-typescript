@@ -1,0 +1,38 @@
+{
+  "devDependencies": {
+    "immutable": "registry:npm/immutable#3.7.6+20160411060006",
+    "react-dom": "registry:npm/react-dom#15.0.1+20160826174104",
+    "react-router": "registry:npm/react-router#2.4.0+20160915183637",
+    "react-router-redux": "registry:npm/react-router-redux#4.0.0+20160602212457",
+    "redux-thunk": "registry:npm/redux-thunk#2.0.0+20160525185520",
+    "webpack": "registry:npm/webpack#1.12.9+20160418172948"
+  },
+  "globalDevDependencies": {
+    "enzyme": "registry:dt/enzyme#2.5.1+20161019142319",
+    "expect": "registry:dt/expect#1.13.4+20160316155526",
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20161012061536",
+    "jquery": "registry:dt/jquery#1.10.0+20160929162922",
+    "mime": "registry:dt/mime#0.0.0+20160316155526",
+    "mocha": "registry:dt/mocha#2.2.5+20160720003353",
+    "nock": "registry:dt/nock#8.0.0+20160909083304",
+    "node": "registry:dt/node#6.0.0+20161019125345",
+    "open": "registry:dt/open#0.0.3+20160316155526",
+    "react-addons-test-utils": "registry:dt/react-addons-test-utils#0.14.0+20160427035638",
+    "react-redux": "registry:dt/react-redux#4.4.0+20160908183346",
+    "redux": "registry:dt/redux#3.5.2+20160703092728",
+    "redux-immutable-state-invariant": "registry:dt/redux-immutable-state-invariant#1.2.0+20160316155526",
+    "redux-mock-store": "registry:dt/redux-mock-store#0.0.6+20160907111255",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
+    "systemjs": "registry:dt/systemjs#0.19.29+20160702105636",
+    "toastr": "registry:dt/toastr#2.1.1+20160510010435"
+  },
+  "globalDependencies": {
+    "colors": "registry:dt/colors#0.6.0-1+20160914114039",
+    "compression": "registry:dt/compression#0.0.0+20160501162003",
+    "jsdom": "registry:dt/jsdom#2.0.0+20160906180921"
+  },
+  "dependencies": {
+    "cheerio": "registry:npm/cheerio#0.20.0+20160422172414"
+  }
+}
