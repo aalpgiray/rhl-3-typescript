@@ -5,6 +5,7 @@ import { CourseForm } from "../../components/course/course.form";
 import * as toastr from "toastr";
 import { ICourse } from "../../reducers/course.reducer";
 import PageNotFound from '../404/index';
+import autobind from 'autobind-decorator';
 
 export const emptyCourseGeneraor = (): ICourse => {
   return {

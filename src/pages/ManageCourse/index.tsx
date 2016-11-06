@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { IStore } from "../../store/store.interface";
 import { Dispatch } from "redux";
-// import construct = Reflect.construct;
 import { saveCourse } from "../../actions/course.actions";
 import { IOwnProps, IStoreProps, IActionProps, IParams } from "./ManageCoursePage.interfaces";
 import { ManageCoursePage, emptyCourseGeneraor } from './ManageCoursePage';
 import { formatDataForDropDown } from '../../selectors/selectors';
 import { withRouter } from 'react-router';
+
 
 const mapStateToProps = (state: IStore, ownProps: IOwnProps): IStoreProps => {
   const {id} = (ownProps.params as IParams);

@@ -3,14 +3,44 @@
     // for the documentation about the tasks.json format
     "version": "0.1.0",
     "command": "cmd",
+    "args": [
+        "/C"
+    ],
     "isShellCommand": true,
-    // "args": [
-    //     "-p",
-    //     ".",
-    //     "--noEmit",
-    //     "--pretty"
-    // ],
     "showOutput": "silent",
-    "isWatching": false,
-    "problemMatcher": "$tsc-watch"
+    "isWatching": true,
+    "tasks": [
+        {
+            "taskName": "build",
+            "suppressTaskName": true,
+            "isWatching": true,
+            "showOutput": "silent",
+            "args": [
+                "ts-babel-node",
+                "tools/srcServer.ts"
+            ],
+            "problemMatcher": {
+                "owner": "webpack",
+                "severity": "error",
+                "fileLocation": "relative",
+                "watching": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^webpack building...",
+                    "endsPattern": "^webpack built.+ms"
+                },
+                "pattern": [
+                    {
+                        "regexp": "ERROR in (.*)",
+                        "file": 1
+                    },
+                    {
+                        "regexp": "\\((\\d+),(\\d+)\\):(.*)",
+                        "line": 1,
+                        "column": 2,
+                        "message": 3
+                    }
+                ]
+            }
+        }
+    ]
 }

@@ -23,7 +23,7 @@ export const CourseForm = ({course, allAuthors, onSave, onChange, saving, errors
   return (
     <form>
       <fieldset disabled={saving || loading}>
-        <h1>Manage Course Form</h1>
+        <h1>Manage Course</h1>
         <TextInput
           name="title"
           label="Title"
@@ -61,7 +61,7 @@ export const CourseForm = ({course, allAuthors, onSave, onChange, saving, errors
         <input
           type="submit"
           value={saving ? 'Saving...' : 'Save'}
-          className="btn btn-primary"
+          class="btn btn-primary"
           onClick={onSave}
         />
       </fieldset>

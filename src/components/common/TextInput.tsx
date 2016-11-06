@@ -19,19 +19,19 @@ export const TextInput = ({name, label, onChange, placeholder, value, error, dis
   }
 
   return (
-    <div className={wrapperClass}>
+    <div class={wrapperClass}>
       <label htmlFor={name}>{label}</label>
-      <div className="field">
+      <div class="field">
         <input
           disabled={disabled}
           type="text"
           name={name}
-          className="form-control"
+          class="form-control"
           placeholder={placeholder}
           value={value}
           onChange={onChange}/>
-        {error && <div className="alert alert-danger">{error}</div>}
-        {help && <span id="helpBlock" className="help-block">{help}</span>}
+        {error && <div class="alert alert-danger">{error}</div>}
+        {help && <span id="helpBlock" class="help-block">{help}</span>}
       </div>
     </div>
   );

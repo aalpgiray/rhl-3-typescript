@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import { IActionProps, ICoursePage } from './CoursesPage.interfaces';
-import { browserHistory } from "react-router";
-import { CourseList } from "../../components/course/course.list";
 import * as toastr from 'toastr';
 import { ICourse } from '../../reducers/course.reducer';
 import autobind from 'autobind-decorator';
+import { browserHistory } from 'react-router';
+import { CourseList } from '../../components/course/course.list';
 
 @autobind
 export class CoursesPage extends Component<ICoursePage & IActionProps, any> {
@@ -30,13 +30,8 @@ export class CoursesPage extends Component<ICoursePage & IActionProps, any> {
 
     return (
       <div>
-        <h1>Courses</h1>
-        <input type="submit"
-          value="Add Course"
-          className="btn pull-right"
-          onClick={this.redirectToAddCoursePage}
-          />
-        {courses.length > 0 && <CourseList pagable={true} currentPage={3} totalPages={10} courses={courses} deleteCallback={this.onCourseDelete} />}
+        <h1>Online Courses</h1>
+        {courses.length > 0 && <CourseList redirectToAddCoursePage={this.redirectToAddCoursePage} pagable={true} currentPage={3} totalPages={10} courses={courses} deleteCallback={this.onCourseDelete} />}
       </div>
     );
   }

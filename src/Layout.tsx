@@ -20,22 +20,22 @@ export default ({children, loading}: ILayout) => {
   }
 
   return (
-    <div className="container">
+    <div class="container">
       {loading && <ProgressBar style={progressStyle}/>}
-      <nav className="navbar navbar-default">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
             </button>
-              <Link className="navbar-brand" to="/"><i className="material-icons">fingerprint</i></Link>
+              <Link class="navbar-brand" to="/"><i class="material-icons">fingerprint</i></Link>
           </div>
-          <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul className="nav navbar-nav">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
               <li>
                 <Link to="/"> Home</Link>
               </li>

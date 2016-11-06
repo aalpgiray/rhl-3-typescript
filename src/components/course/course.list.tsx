@@ -11,20 +11,26 @@ interface ICourseList {
     pagable?: boolean
     totalPages?: number;
     currentPage?: number;
+    redirectToAddCoursePage: () => void;
 }
 
-export const CourseList = ({courses, deleteCallback, pagable, totalPages, currentPage}: ICourseList) => {
+export const CourseList = ({courses, deleteCallback, pagable, totalPages, currentPage, redirectToAddCoursePage}: ICourseList) => {
     return (
         <div>
-            <table className="table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th></th>
                         <th>Title</th>
                         <th>Author</th>
                         <th>Category</th>
                         <th>Length</th>
+                        <th style={{ textAlign: "right" }}>
+                            <input type="button"
+                                value="Add Course"
+                                class="btn btn-sm btn-primary"
+                                onClick={redirectToAddCoursePage}
+                                />
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

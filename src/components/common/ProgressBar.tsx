@@ -49,11 +49,11 @@ export class ProgressBar extends Component<IProgressBarProps, IProgressBarState>
     const {percent} = this.state;
 
     return (
-      <div className="progress" style={style || { height: "3px" }}>
-        <div className="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow={percent}
+      <div class="progress" style={style || { height: "3px" }}>
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow={percent}
              aria-valuemin="0" aria-valuemax="100"
              style={{ width: percent + "%", transition: "all 30s cubic-bezier(0, 1.11, 0.17, 1.01)", transform: "translate3d(0,0,0)" }}>
-          <span className="sr-only">{percent}% Complete</span>
+          <span class="sr-only">{percent}% Complete</span>
         </div>
       </div>
     )

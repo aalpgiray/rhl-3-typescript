@@ -6,9 +6,9 @@
     "experimentalDecorators": true,
     "jsx": "preserve",
     "allowJs": true,
-    //    "sourceMap": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
+    "sourceMap": true,
+    // "inlineSourceMap": true,
+    // "inlineSources": true,
     "allowSyntheticDefaultImports": true
     //    "noUnusedLocals": true,
     //    "noImplicitAny": true,

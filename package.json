@@ -96,12 +96,14 @@
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
+    "react-router-redux": "^4.0.7",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "systemjs": "^0.19.39",
     "toastr": "2.1.2",
     "ts-babel-node": "^1.1.1",
     "ts-node": "^1.6.1",
-    "typescript": "^2.0.6"
+    "typescript": "^2.0.6",
+    "webpack": "^2.1.0-beta.21"
   }
 }
