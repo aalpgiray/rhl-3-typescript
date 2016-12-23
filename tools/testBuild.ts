@@ -10,7 +10,7 @@ console.log('Generating minified bundle for production via Webpack. This will ta
 
 webpack(webpackConfig).run((err, stats) => {
   if (err) {
-    console.log(err.message.bold.red);
+    console.log(err.message.red);
     return 1;
   }
 
@@ -21,7 +21,7 @@ webpack(webpackConfig).run((err, stats) => {
   }
 
   if (jsonStats.hasWarnings) {
-    console.log('Webpack generated the following warnings: '.bold.yellow);
+    console.log('Webpack generated the following warnings: '.yellow);
     jsonStats.warnings.map(warning => console.log(warning.yellow));
   }
 

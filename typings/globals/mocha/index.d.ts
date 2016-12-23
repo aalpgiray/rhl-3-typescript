@@ -4,7 +4,7 @@ interface MochaSetupOptions {
     //milliseconds to wait before considering a test slow
     slow?: number;
 
-    // timeouts in milliseconds
+    // timeout in milliseconds
     timeout?: number;
 
     // ui name "bdd", "tdd", "exports" etc

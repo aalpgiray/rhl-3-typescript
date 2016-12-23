@@ -1,53 +1,87 @@
-import {Link} from "react-router";
-import {ProgressBar} from "./components/common/ProgressBar";
-import {CSSProperties} from "react";
+import { Link } from "react-router";
+import { ProgressBar } from "./components/common/ProgressBar";
+import { CSSProperties, Component } from 'react';
+import {
+  AppBar,
+  IconMenu,
+  IconButton,
+  MenuItem,
+  Drawer
+} from 'material-ui';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import colors from 'colors';
+import { IManageCoursePageProps } from './pages/ManageCourse/ManageCoursePage.interfaces';
+import autobind from 'autobind-decorator';
 
-
-interface ILayout {
+export interface ILayoutProps {
   children?: any;
   loading: boolean;
 }
 
-export default ({children, loading}: ILayout) => {
+export interface ILayoutState {
+  drawer: boolean;
+}
 
-  const progressStyle: CSSProperties = {
-    position: "fixed",
-    width: "100%",
-    top: "0",
-    left: "0",
-    height: "3px",
-    zIndex: 2
+const progressStyle: CSSProperties = {
+  position: "fixed",
+  width: "100%",
+  top: "0",
+  left: "0",
+  height: "3px",
+  zIndex: 2000
+}
+
+@autobind
+export default class Layout extends Component<ILayoutProps, ILayoutState>{
+  constructor(props: IManageCoursePageProps) {
+    super(props);
+
+    this.state = {
+      drawer: false
+    }
+  }
+  componentDidMount() {
+    this.setState({ drawer: false });
   }
 
-  return (
-    <div class="container">
-      {loading && <ProgressBar style={progressStyle}/>}
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-              <Link class="navbar-brand" to="/"><i class="material-icons">fingerprint</i></Link>
-          </div>
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li>
-                <Link to="/"> Home</Link>
-              </li>
-              <li>
-                <Link to="/Courses">Courses</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+  toogleDrawer() {
+    this.setState({ drawer: !this.state.drawer })
+  }
+  render() {
+    return (
+      <div class="container-fluid">
+        {this.props.loading && <ProgressBar style={progressStyle} />}
+        <AppBar
+          title={
+            <div style={{ display: "flex" }}>
+              <Link to="/" activeStyle={{ backgroundColor: "#1E88E5" }} style={{ textDecoration: "none" }}><MenuItem style={{ color: "white" }} primaryText="Tarımsal İşletme Danışmanlığı" /></Link>
+              <Link to="/Visit" activeStyle={{ backgroundColor: "#1E88E5" }} style={{ textDecoration: "none" }}><MenuItem style={{ color: "white" }} primaryText="Ziyaret Kayıtları" /></Link>
+            </div>
+          }
+          showMenuIconButton={false}
+          // onLeftIconButtonTouchTap={this.toogleDrawer}
+          iconElementRight={<IconMenu
+            iconButtonElement={
+              <IconButton><MoreVertIcon /></IconButton>
+            }
+            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+            >
+            <MenuItem primaryText="Çıkış" />
+          </IconMenu>}
+          />
 
-      {children}
-    </div>
-  )
+        <Drawer
+          docked={false}
+          open={this.state.drawer}
+          onRequestChange={(drawer) => this.setState({ drawer })}
+          >
+          <Link to="/" onTouchTap={this.toogleDrawer}><MenuItem primaryText="Tarımsal İşletme Danışmanlığı" /></Link>
+          <Link to="/Visit" onTouchTap={this.toogleDrawer}><MenuItem primaryText="Ziyaret Kayıtları" /></Link>
+        </Drawer>
+        {this.props.children}
+      </div>
+    )
+  }
 }

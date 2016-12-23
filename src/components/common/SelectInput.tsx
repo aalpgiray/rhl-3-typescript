@@ -26,7 +26,7 @@ export const SelectInput = ({name, label, onChange, defaultOption, value, error,
                     class="form-control">
                     <option value="">{defaultOption}</option>
                     {options.map((option) => {
-                        return <option key={option.Key} value={option.Key}>{option.Value}</option>;
+                        return <option key={Math.random()} value={option.Key}>{option.Value}</option>;
                     })
                     }
                 </select>

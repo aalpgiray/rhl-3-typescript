@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/3561e140bd9ec6c1dfd39d4ba350346044181fd0/react-hot-loader/index.d.ts",
+    "raw": "registry:dt/react-hot-loader#3.0.0+20161115205600",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/3561e140bd9ec6c1dfd39d4ba350346044181fd0/react-hot-loader/index.d.ts"
+  }
+}

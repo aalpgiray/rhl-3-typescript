@@ -1,6 +1,5 @@
 import {FormEvent} from "react";
 
-
 interface ITextInput {
   name: string;
   label: string;

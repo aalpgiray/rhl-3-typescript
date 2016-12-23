@@ -4,6 +4,15 @@ import { IStore } from "./store/store.interface";
 import { connect } from 'react-redux';
 import { IInjectedProps } from "react-router";
 import { StartupConfiguration } from './AppStartup';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+var injectTapEventPlugin = require('react-tap-event-plugin');
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
 
 // If you use React Router, make this component
 // render <Router> with your routes. Currently,
@@ -27,6 +36,17 @@ interface IActionProps {
   };
 }
 
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: "#2196F3",
+    disabledColor: "#757575",
+    accent1Color: "#EF5350",
+  },
+  appBar: {
+    height: 50,
+  },
+});
+
 class App extends Component<IApp, void> {
 
   componentDidMount() {
@@ -38,9 +58,11 @@ class App extends Component<IApp, void> {
     const {loading} = this.props;
 
     return (
-      <Layout loading={loading}>
-        {this.props.children}
-      </Layout>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <Layout loading={loading}>
+          {this.props.children}
+        </Layout>
+      </MuiThemeProvider>
     );
   }
 }

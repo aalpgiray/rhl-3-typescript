@@ -210,7 +210,7 @@ declare module 'webpack' {
       Buffer?: boolean;
       __filename?: boolean | string;
       __dirname?: boolean | string;
-      [nodeBuiltin: string]: boolean | string | undefined;
+      [nodeBuiltin: string]: boolean | string;
     }
 
     type LoaderCondition = string | RegExp | ((absPath: string) => boolean);
@@ -334,8 +334,7 @@ declare module 'webpack' {
      * so there are no assets emitted that include errors. The emitted flag in the stats is false for all assets.
      */
     export class NoErrorsPlugin extends Plugin { }
-
-    export class NamedModulesPlugin extends Plugin {}
+    export class NamedModulesPlugin extends Plugin { }
 
     /**
      * Does not watch specified files matching provided paths or RegExps.

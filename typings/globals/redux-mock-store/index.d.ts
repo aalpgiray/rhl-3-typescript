@@ -2,17 +2,18 @@
 // Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/49d0ce6918543644b8e27df7dfd2c851c18b94e6/redux-mock-store/redux-mock-store.d.ts
 declare module 'redux-mock-store' {
     import * as Redux from 'redux'
+    import { Action } from 'redux';
 
-    function createMockStore<T>(middlewares?:Redux.Middleware[]):mockStore<T>
+    function createMockStore<T>(middlewares?: Redux.Middleware[]): mockStore<T>
 
-    export type mockStore<T> = (state?:T) => IStore<T>;
+    export type mockStore<T> = (state?: T) => IStore<T>;
 
     export type IStore<T> = {
-        dispatch(action: any):any
-        getState():T
-        getActions():Redux.Action[]
-        clearActions():void
-        subscribe(listener: Function):Function
+        dispatch(action: any): any
+        getState(): T
+        getActions(): Action[]
+        clearActions(): void
+        subscribe(listener: Function): Function
     }
 
     export default createMockStore

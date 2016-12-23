@@ -1,7 +1,12 @@
 react-hot-boilerplate
 =====================
 
-The minimal dev environment to enable live-editing React components.
+## Currently broken. 
+_____________________
+
+Its build on top of gaearon react-hot-boilerplate,
+
+Redux, Typescript and codespliting added.
 
 ### Usage
 

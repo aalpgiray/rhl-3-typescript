@@ -48,17 +48,17 @@ interface NodeRequire extends NodeRequireFunction {
 
 declare var require: NodeRequire;
 
-interface NodeModule {
-    exports: any;
-    require: NodeRequireFunction;
-    id: string;
-    filename: string;
-    loaded: boolean;
-    parent: any;
-    children: any[];
-}
+// interface NodeModule {
+//     exports: any;
+//     require: NodeRequireFunction;
+//     id: string;
+//     filename: string;
+//     loaded: boolean;
+//     parent: any;
+//     children: any[];
+// }
 
-declare var module: NodeModule;
+// declare var module: NodeModule;
 
 // Same as module.exports
 declare var exports: any;
@@ -1694,7 +1694,7 @@ declare module "net" {
          *   5. end
          *   6. error
          *   7. lookup
-         *   8. timeouts
+         *   8. timeout
          */
         addListener(event: string, listener: Function): this;
         addListener(event: "close", listener: (had_error: boolean) => void): this;
@@ -1704,7 +1704,7 @@ declare module "net" {
         addListener(event: "end", listener: () => void): this;
         addListener(event: "error", listener: (err: Error) => void): this;
         addListener(event: "lookup", listener: (err: Error, address: string, family: string | number, host: string) => void): this;
-        addListener(event: "timeouts", listener: () => void): this;
+        addListener(event: "timeout", listener: () => void): this;
 
         emit(event: string, ...args: any[]): boolean;
         emit(event: "close", had_error: boolean): boolean;
@@ -1714,7 +1714,7 @@ declare module "net" {
         emit(event: "end"): boolean;
         emit(event: "error", err: Error): boolean;
         emit(event: "lookup", err: Error, address: string, family: string | number, host: string): boolean;
-        emit(event: "timeouts"): boolean;
+        emit(event: "timeout"): boolean;
 
         on(event: string, listener: Function): this;
         on(event: "close", listener: (had_error: boolean) => void): this;
@@ -1724,7 +1724,7 @@ declare module "net" {
         on(event: "end", listener: () => void): this;
         on(event: "error", listener: (err: Error) => void): this;
         on(event: "lookup", listener: (err: Error, address: string, family: string | number, host: string) => void): this;
-        on(event: "timeouts", listener: () => void): this;
+        on(event: "timeout", listener: () => void): this;
 
         once(event: string, listener: Function): this;
         once(event: "close", listener: (had_error: boolean) => void): this;
@@ -1734,7 +1734,7 @@ declare module "net" {
         once(event: "end", listener: () => void): this;
         once(event: "error", listener: (err: Error) => void): this;
         once(event: "lookup", listener: (err: Error, address: string, family: string | number, host: string) => void): this;
-        once(event: "timeouts", listener: () => void): this;
+        once(event: "timeout", listener: () => void): this;
 
         prependListener(event: string, listener: Function): this;
         prependListener(event: "close", listener: (had_error: boolean) => void): this;
@@ -1744,7 +1744,7 @@ declare module "net" {
         prependListener(event: "end", listener: () => void): this;
         prependListener(event: "error", listener: (err: Error) => void): this;
         prependListener(event: "lookup", listener: (err: Error, address: string, family: string | number, host: string) => void): this;
-        prependListener(event: "timeouts", listener: () => void): this;
+        prependListener(event: "timeout", listener: () => void): this;
 
         prependOnceListener(event: string, listener: Function): this;
         prependOnceListener(event: "close", listener: (had_error: boolean) => void): this;
@@ -1754,7 +1754,7 @@ declare module "net" {
         prependOnceListener(event: "end", listener: () => void): this;
         prependOnceListener(event: "error", listener: (err: Error) => void): this;
         prependOnceListener(event: "lookup", listener: (err: Error, address: string, family: string | number, host: string) => void): this;
-        prependOnceListener(event: "timeouts", listener: () => void): this;
+        prependOnceListener(event: "timeout", listener: () => void): this;
     }
 
     export var Socket: {
@@ -2638,65 +2638,65 @@ declare module "tls" {
         /**
          * Construct a new tls.TLSSocket object from an existing TCP socket.
          */
-        constructor(socket:net.Socket, options?: {
-          /**
-           * An optional TLS context object from tls.createSecureContext()
-           */
-          secureContext?: SecureContext,
-          /**
-           * If true the TLS socket will be instantiated in server-mode.
-           * Defaults to false.
-           */
-          isServer?: boolean,
-          /**
-           * An optional net.Server instance.
-           */
-          server?: net.Server,
-          /**
-           * If true the server will request a certificate from clients that
-           * connect and attempt to verify that certificate. Defaults to
-           * false.
-           */
-          requestCert?: boolean,
-          /**
-           * If true the server will reject any connection which is not
-           * authorized with the list of supplied CAs. This option only has an
-           * effect if requestCert is true. Defaults to false.
-           */
-          rejectUnauthorized?: boolean,
-          /**
-           * An array of strings or a Buffer naming possible NPN protocols.
-           * (Protocols should be ordered by their priority.)
-           */
-          NPNProtocols?: string[] | Buffer,
-          /**
-           * An array of strings or a Buffer naming possible ALPN protocols.
-           * (Protocols should be ordered by their priority.) When the server
-           * receives both NPN and ALPN extensions from the client, ALPN takes
-           * precedence over NPN and the server does not send an NPN extension
-           * to the client.
-           */
-          ALPNProtocols?: string[] | Buffer,
-          /**
-           * SNICallback(servername, cb) <Function> A function that will be
-           * called if the client supports SNI TLS extension. Two arguments
-           * will be passed when called: servername and cb. SNICallback should
-           * invoke cb(null, ctx), where ctx is a SecureContext instance.
-           * (tls.createSecureContext(...) can be used to get a proper
-           * SecureContext.) If SNICallback wasn't provided the default callback
-           * with high-level API will be used (see below).
-           */
-          SNICallback?: Function,
-          /**
-           * An optional Buffer instance containing a TLS session.
-           */
-          session?: Buffer,
-          /**
-           * If true, specifies that the OCSP status request extension will be
-           * added to the client hello and an 'OCSPResponse' event will be
-           * emitted on the socket before establishing a secure communication
-           */
-          requestOCSP?: boolean
+        constructor(socket: net.Socket, options?: {
+            /**
+             * An optional TLS context object from tls.createSecureContext()
+             */
+            secureContext?: SecureContext,
+            /**
+             * If true the TLS socket will be instantiated in server-mode.
+             * Defaults to false.
+             */
+            isServer?: boolean,
+            /**
+             * An optional net.Server instance.
+             */
+            server?: net.Server,
+            /**
+             * If true the server will request a certificate from clients that
+             * connect and attempt to verify that certificate. Defaults to
+             * false.
+             */
+            requestCert?: boolean,
+            /**
+             * If true the server will reject any connection which is not
+             * authorized with the list of supplied CAs. This option only has an
+             * effect if requestCert is true. Defaults to false.
+             */
+            rejectUnauthorized?: boolean,
+            /**
+             * An array of strings or a Buffer naming possible NPN protocols.
+             * (Protocols should be ordered by their priority.)
+             */
+            NPNProtocols?: string[] | Buffer,
+            /**
+             * An array of strings or a Buffer naming possible ALPN protocols.
+             * (Protocols should be ordered by their priority.) When the server
+             * receives both NPN and ALPN extensions from the client, ALPN takes
+             * precedence over NPN and the server does not send an NPN extension
+             * to the client.
+             */
+            ALPNProtocols?: string[] | Buffer,
+            /**
+             * SNICallback(servername, cb) <Function> A function that will be
+             * called if the client supports SNI TLS extension. Two arguments
+             * will be passed when called: servername and cb. SNICallback should
+             * invoke cb(null, ctx), where ctx is a SecureContext instance.
+             * (tls.createSecureContext(...) can be used to get a proper
+             * SecureContext.) If SNICallback wasn't provided the default callback
+             * with high-level API will be used (see below).
+             */
+            SNICallback?: Function,
+            /**
+             * An optional Buffer instance containing a TLS session.
+             */
+            session?: Buffer,
+            /**
+             * If true, specifies that the OCSP status request extension will be
+             * added to the client hello and an 'OCSPResponse' event will be
+             * emitted on the socket before establishing a secure communication
+             */
+            requestOCSP?: boolean
         });
         /**
          * Returns the bound address, the address family name and port of the underlying socket as reported by
@@ -2779,7 +2779,7 @@ declare module "tls" {
          * Initiate TLS renegotiation process.
          *
          * NOTE: Can be used to request peer's certificate after the secure connection has been established.
-         * ANOTHER NOTE: When running as the server, socket will be destroyed with an error after handshakeTimeout timeouts.
+         * ANOTHER NOTE: When running as the server, socket will be destroyed with an error after handshakeTimeout timeout.
          * @param {TlsOptions} options - The options may contain the following fields: rejectUnauthorized,
          * requestCert (See tls.createServer() for details).
          * @param {Function} callback - callback(err) will be executed with null as err, once the renegotiation
@@ -3776,14 +3776,14 @@ declare module "v8" {
     export function setFlagsFromString(flags: string): void;
 }
 
-// declare module "timers" {
-//     export function setTimeout(callback: (...args: any[]) => void, ms: number, ...args: any[]): NodeJS.Timer;
-//     export function clearTimeout(timeoutId: NodeJS.Timer): void;
-//     export function setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]): NodeJS.Timer;
-//     export function clearInterval(intervalId: NodeJS.Timer): void;
-//     export function setImmediate(callback: (...args: any[]) => void, ...args: any[]): any;
-//     export function clearImmediate(immediateId: any): void;
-// }
+declare module "timers" {
+    export function setTimeout(callback: (...args: any[]) => void, ms: number, ...args: any[]): NodeJS.Timer;
+    export function clearTimeout(timeoutId: NodeJS.Timer): void;
+    export function setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]): NodeJS.Timer;
+    export function clearInterval(intervalId: NodeJS.Timer): void;
+    export function setImmediate(callback: (...args: any[]) => void, ...args: any[]): any;
+    export function clearImmediate(immediateId: any): void;
+}
 
 declare module "console" {
     export = console;

@@ -12,7 +12,13 @@ export const CourseListRow = ({course, deleteCallback}: { course: ICourse, delet
             <td>{course.category}</td>
             <td>{course.length}</td>
             <td style={{ textAlign: "right" }}>
-                <a style={{ marginRight: "5px" }} class="btn btn-default btn-xs" href={course.watchHref} target="_blank">Watch</a>
+                <a style={{ marginRight: "5px" }}
+                    class="btn btn-default btn-xs"
+                    href={course.watchHref}
+                    target="_blank"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                    } }>Watch</a>
                 <button onClick={(e) => {
                     e.stopPropagation();
                     deleteCallback(course);
@@ -21,4 +27,3 @@ export const CourseListRow = ({course, deleteCallback}: { course: ICourse, delet
         </tr>
     )
 }
-
