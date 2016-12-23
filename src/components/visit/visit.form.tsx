@@ -1,7 +1,6 @@
 import { FormEvent, MouseEvent, CSSProperties } from "react";
 import { IVisit } from '../../reducers/visit.reducer';
 import { formatDataForDropDown } from '../../selectors/selectors';
-import { visits } from '../../api/mockVisitApi';
 import { IRouterContext } from 'react-router';
 import * as toastr from 'toastr';
 import { TextInput } from '../common/TextInput';
@@ -51,53 +50,6 @@ interface IVisitForm {
     };
 }
 
-
-
-// var cities = formatDataForDropDown(visits, p => p.visitedCityName, p => p.visitedCityName.toString()).sort((a, b) => a.Value > b.Value ? 1 : -1);
-var firms = formatDataForDropDown(visits, p => p.visitedFirmName, p => p.visitedFirmName).sort((a, b) => a.Value > b.Value ? 1 : -1);;
-// var users = formatDataForDropDown(visits, p => p.userName, p => p.userName).sort((a, b) => a.Value > b.Value ? 1 : -1);;
-// var towns = formatDataForDropDown(visits, p => p.visitedTownName, p => p.visitedTownName.toString()).sort((a, b) => a.Value > b.Value ? 1 : -1);;
-// var villages = formatDataForDropDown(visits, p => p.visitedVillageName, p => p.visitedVillageName.toString()).sort((a, b) => a.Value > b.Value ? 1 : -1);;
-var visitGroups = formatDataForDropDown(visits, p => p.visitGroup, p => p.visitGroup).sort((a, b) => a.Value > b.Value ? 1 : -1);;
-
-var temp = [];
-// cities.forEach(c => {
-//     if (!temp.some(t => t["Key"] == c.Key)) temp.push(c);
-// });
-// cities = temp;
-temp = [];
-firms.forEach(c => {
-    if (!temp.some(t => t["Key"] == c.Key)) temp.push(c);
-});
-firms = temp;
-// temp = [];
-// users.forEach(c => {
-//     if (!temp.some(t => t["Key"] == c.Key)) temp.push(c);
-// });
-// users = temp;
-// temp = [];
-// towns.forEach(c => {
-//     if (!temp.some(t => t["Key"] == c.Key)) temp.push(c);
-// });
-// towns = temp;
-// temp = [];
-// villages.forEach(c => {
-//     if (!temp.some(t => t["Key"] == c.Key)) temp.push(c);
-// });
-// villages = temp;
-temp = [];
-visitGroups.forEach(c => {
-    if (!temp.some(t => t["Key"] == c.Key)) temp.push(c);
-});
-visitGroups = temp;
-temp = [];
-
-
-
-
-
-
-
 export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, disabled, disabledChange, context, cities, citySet, towns, townSet, villages, supervisors, searchSupervisor}: IVisitForm) => {
 
     let timePicker: TimePicker;
@@ -108,25 +60,6 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                 style={{ border: "none" }}
                 disabled={saving || loading || disabled}>
                 <div>
-                    {//<AutoComplete
-                        //     fullWidth={true}
-                        //     openOnFocus={true}
-                        //     filter={AutoComplete.caseInsensitiveFilter}
-                        //     floatingLabelText={<span>Ziyaret Edilen İşletme <span style={{ color: "red" }}>*</span></span>}
-                        //     dataSourceConfig={{ value: "Key", text: "Key" }}
-                        //     dataSource={firms}
-                        //     searchText={visit.visitedFirmName}
-                        //     errorText={errors.visitedFirmName}
-                        //     onBlur={(e) => {
-                        //         let event: any = {
-                        //             target: {
-                        //                 name: "visitedFirmName",
-                        //                 value: firms.some(f => f.Key == e.target.value) ? e.target.value : ""
-                        //             }
-                        //         }
-                        //         onChange(event);
-                        // } } />
-                    }
                     <label style={{
                         userSelect: "none",
                         transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
@@ -137,40 +70,34 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         fontSize: "12px"
                     }}>Ziyaret Edilen İşletme <span style={{ color: "red" }}>*</span></label>
                     <Select.Async
-                        loadOptions={(input, callback) => {
-                            VisitApi.SearchSupervisor(input).then(res => {
-                                callback(null, {
-                                    options: res.map(r => { return { value: r.Key, label: r.Value } }),
-                                });
-                            })
+                        loadOptions={(input: string, callback) => {
+                            if (input.length >= 4) {
+                                VisitApi.SearchFirm(input).then(res => {
+                                    callback(null, {
+                                        options: res.map(r => { return { value: r.Key, label: r.Value } }),
+                                    });
+                                })
+                            }
                         } }
-                        value={visit.visitedFirmName}
-                        searchPromptText="Bir Sonuç Bulunamadı"
+                        onChange={(e: { value: string, label: string }) => {
+                            let event: any = {
+                                target: {
+                                    valueName: "visitedFirmRef",
+                                    labelName: "visitedFirmName",
+                                    value: e.value,
+                                    label: e.label
+                                }
+                            }
+                            onChange(event);
+                        } }
+                        options={visit.visitedFirmName ? [{ value: visit.visitedFirmRef, label: visit.visitedFirmName }] : []}
+                        value={visit.visitedFirmRef}
+                        searchPromptText="Bir sonuç bulunamadı. En az dört karakter giriniz."
                         placeholder="Lütfen Seçiniz"
-                        name="visitedFirmName"
+                        name="visitedFirmRef"
                         />
                 </div>
                 <div style={{ marginTop: "10px" }}>
-                    {
-                        // <AutoComplete
-                        //     fullWidth={true}
-                        //     openOnFocus={true}
-                        //     filter={AutoComplete.caseInsensitiveFilter}
-                        //     floatingLabelText={<span>İşletme Danışmanı <span style={{ color: "red" }}>*</span></span>}
-                        //     dataSourceConfig={{ value: "Key", text: "Value" }}
-                        //     dataSource={supervisors}
-                        //     errorText={errors.userName}
-                        //     searchText={visit.userName}
-                        //     onBlur={(e) => {
-                        //         let event: any = {
-                        //             target: {
-                        //                 name: "userName",
-                        //                 value: supervisors.some(u => u.Key == e.target.value) ? e.target.value : ""
-                        //             }
-                        //         }
-                        //         onChange(event);
-                        //     } } />
-                    }
                     <label style={{
                         userSelect: "none",
                         transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
@@ -188,97 +115,141 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                                 });
                             })
                         } }
-                        value={visit.userName}
-                        searchPromptText="Bir Sonuç Bulunamadı"
+                        onChange={(e: { value: string, label: string }) => {
+                            let event: any = {
+                                target: {
+                                    valueName: "idUserRef",
+                                    labelName: "userName",
+                                    value: e.value,
+                                    label: e.label
+                                }
+                            }
+                            onChange(event);
+                        } }
+                        options={visit.idUserRef ? [{ value: visit.idUserRef, label: visit.userName }] : []}
+                        value={visit.idUserRef}
+                        searchPromptText="Bir sonuç bulunamadı.En az bir karakter giriniz."
                         placeholder="Lütfen Seçiniz"
-                        name="userName"
+                        name="idUserRef"
                         />
                 </div>
-                <div>
-                    <AutoComplete
-                        fullWidth={true}
-                        openOnFocus={true}
-                        filter={AutoComplete.caseInsensitiveFilter}
-                        floatingLabelText={<span>Ziyaret Yapılan İl <span style={{ color: "red" }}>*</span></span>}
-                        dataSourceConfig={{ value: "Key", text: "Value" }}
-                        dataSource={cities}
-                        errorText={errors.visitedCityName}
-                        searchText={visit.visitedCityName}
-                        onBlur={(e) => {
+                <div style={{ marginTop: "10px" }}>
+                    <label style={{
+                        userSelect: "none",
+                        transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
+                        lineHeight: "22px",
+                        pointerEvents: "none",
+                        color: "rgb(117, 117, 117)",
+                        fontFamily: "roboto",
+                        fontSize: "12px"
+                    }}>Ziyaret Yapılan İl <span style={{ color: "red" }}>*</span></label>
+                    <Select
+                        name="visitedCityRef"
+                        noResultsText="Bir sonuç bulunamadı."
+                        placeholder="Lütfen Seçiniz"
+                        options={cities.map(c => { return { value: c.Key, label: c.Value } })}
+                        value={visit.visitedCityRef.toString()}
+                        onChange={(e: { value: string, label: string }) => {
                             let event: any = {
                                 target: {
-                                    name: "visitedCityName",
-                                    value: cities.some(u => u.Key == e.target.value) ? e.target.value : ""
+                                    valueName: "visitedCityRef",
+                                    labelName: "visitedCityName",
+                                    value: e.value,
+                                    label: e.label
+                                }
+                            }
+                            onChange(event);
+                            citySet(e.value);
+                        } }
+                        />
+                </div>
+                <div style={{ marginTop: "10px" }}>
+                    <label style={{
+                        userSelect: "none",
+                        transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
+                        lineHeight: "22px",
+                        pointerEvents: "none",
+                        color: "rgb(117, 117, 117)",
+                        fontFamily: "roboto",
+                        fontSize: "12px"
+                    }}>Ziyaret Yapılan İlçe <span style={{ color: "red" }}>*</span></label>
+                    <Select
+                        name="visitedTownRef"
+                        noResultsText="Bir sonuç bulunamadı. Lütfen önce il seçiniz."
+                        placeholder="Lütfen Seçiniz"
+                        options={towns.length > 0 ? towns.map(c => { return { value: c.Key, label: c.Value } }) : (visit.visitedTownName ? [{ value: visit.visitedTownRef.toString(), label: visit.visitedTownName }] : [])}
+                        value={visit.visitedTownRef.toString()}
+                        onChange={(e: { value: string, label: string }) => {
+                            let event: any = {
+                                target: {
+                                    valueName: "visitedTownRef",
+                                    labelName: "visitedTownName",
+                                    value: e.value,
+                                    label: e.label
+                                }
+                            }
+                            onChange(event);
+                            townSet(e.value);
+                        } }
+                        />
+                </div>
+                <div style={{ marginTop: "10px" }}>
+                    <label style={{
+                        userSelect: "none",
+                        transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
+                        lineHeight: "22px",
+                        pointerEvents: "none",
+                        color: "rgb(117, 117, 117)",
+                        fontFamily: "roboto",
+                        fontSize: "12px"
+                    }}>Ziyaret Yapılan Mahalle/Köy <span style={{ color: "red" }}>*</span></label>
+                    <Select
+                        name="visitedVillageRef"
+                        noResultsText="Bir sonuç bulunamadı. Lütfen önce ilçe seçiniz."
+                        placeholder="Lütfen Seçiniz"
+                        options={villages.length > 0 ? villages.map(c => { return { value: c.Key, label: c.Value } }) : (visit.visitedVillageName ? [{ value: visit.visitedVillageRef.toString(), label: visit.visitedVillageName }] : [])}
+                        value={visit.visitedVillageRef.toString()}
+                        onChange={(e: { value: string, label: string }) => {
+                            let event: any = {
+                                target: {
+                                    valueName: "visitedVillageRef",
+                                    labelName: "visitedVillageName",
+                                    value: e.value,
+                                    label: e.label
                                 }
                             }
                             onChange(event);
                         } }
-                        onNewRequest={(chosenRequest: KeyValuePair<string, string>, index: number) => {
-                            citySet(chosenRequest.Key);
-                        } } />
+                        />
                 </div>
-                <div>
-                    <AutoComplete
-                        fullWidth={true}
-                        openOnFocus={true}
-                        filter={AutoComplete.caseInsensitiveFilter}
-                        floatingLabelText={<span>Ziyaret Yapılan İlçe <span style={{ color: "red" }}>*</span></span>}
-                        dataSourceConfig={{ value: "Key", text: "Value" }}
-                        dataSource={towns}
-                        errorText={errors.visitedTownName}
-                        searchText={visit.visitedTownName}
-                        onBlur={(e) => {
+                <div style={{ marginTop: "10px" }}>
+                    <label style={{
+                        userSelect: "none",
+                        transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
+                        lineHeight: "22px",
+                        pointerEvents: "none",
+                        color: "rgb(117, 117, 117)",
+                        fontFamily: "roboto",
+                        fontSize: "12px"
+                    }}>Ziyaret Grubu <span style={{ color: "red" }}>*</span></label>
+                    <Select
+                        name="visitGroup"
+                        noResultsText="Bir sonuç bulunamadı."
+                        placeholder="Lütfen Seçiniz"
+                        options={[{ value: 1, label: "HAYVANCILIK" }, { value: 2, label: "BİTKİSEL" }]}
+                        value={visit.visitGroupRef}
+                        onChange={(e: { value: string, label: string }) => {
                             let event: any = {
                                 target: {
-                                    name: "visitedTownName",
-                                    value: towns.some(u => u.Key == e.target.value) ? e.target.value : ""
+                                    valueName: "visitGroup",
+                                    labelName: "visitGroupRef",
+                                    value: e.value,
+                                    label: e.label
                                 }
                             }
                             onChange(event);
                         } }
-                        onNewRequest={(chosenRequest: KeyValuePair<string, string>, index: number) => {
-                            townSet(chosenRequest.Key);
-                        } } />
-                </div>
-                <div>
-                    <AutoComplete
-                        fullWidth={true}
-                        openOnFocus={true}
-                        filter={AutoComplete.caseInsensitiveFilter}
-                        floatingLabelText={<span>Ziyaret Yapılan Mahalle/Köy <span style={{ color: "red" }}>*</span></span>}
-                        dataSourceConfig={{ value: "Key", text: "Value" }}
-                        dataSource={villages}
-                        errorText={errors.visitedVillageName}
-                        searchText={visit.visitedVillageName}
-                        onBlur={(e) => {
-                            let event: any = {
-                                target: {
-                                    name: "visitedVillageName",
-                                    value: villages.some(u => u.Key == e.target.value) ? e.target.value : ""
-                                }
-                            }
-                            onChange(event);
-                        } } />
-                </div>
-                <div>
-                    <AutoComplete
-                        fullWidth={true}
-                        openOnFocus={true}
-                        filter={AutoComplete.caseInsensitiveFilter}
-                        floatingLabelText={<span>Ziyaret Grubu <span style={{ color: "red" }}>*</span></span>}
-                        dataSourceConfig={{ value: "Key", text: "Key" }}
-                        dataSource={visitGroups}
-                        errorText={errors.visitGroup}
-                        searchText={visit.visitGroup}
-                        onBlur={(e) => {
-                            let event: any = {
-                                target: {
-                                    name: "visitGroup",
-                                    value: visitGroups.some(u => u.Key == e.target.value) ? e.target.value : ""
-                                }
-                            }
-                            onChange(event);
-                        } } />
+                        />
                 </div>
                 <div style={{ position: "relative", paddingTop: "25px" }}>
                     <label style={{
@@ -286,7 +257,6 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         position: "absolute",
                         top: "38px",
                         transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
-                        zIndex: "1",
                         lineHeight: "22px",
                         transformOrigin: "left top 0px",
                         pointerEvents: "none",
@@ -312,8 +282,8 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                                 date.setMinutes(visit.visitTime.getMinutes());
                                 let event: any = {
                                     target: {
-                                        name: "visitTime",
-                                        value: date
+                                        valueName: "visitTime",
+                                        value: date,
                                     }
                                 }
                                 onChange(event);
@@ -342,8 +312,8 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                                 date.setFullYear(visit.visitTime.getFullYear());
                                 let event: any = {
                                     target: {
+                                        valueName: "visitTime",
                                         value: date,
-                                        name: "visitTime"
                                     }
                                 }
                                 onChange(event);
@@ -357,7 +327,15 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         fullWidth={true}
                         floatingLabelText="Ziyaret Detayı"
                         multiLine={true}
-                        onChange={onChange}
+                        onChange={(e) => {
+                            let event: any = {
+                                target: {
+                                    valueName: "visitDetails",
+                                    value: e.target.value,
+                                }
+                            }
+                            onChange(event);
+                        } }
                         name="visitDetails"
                         className="form-control"
                         value={visit.visitDetails}

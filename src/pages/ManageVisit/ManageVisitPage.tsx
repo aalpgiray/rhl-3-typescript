@@ -6,7 +6,7 @@ import * as toastr from "toastr";
 import { IVisit } from '../../reducers/visit.reducer';
 import PageNotFound from '../404/index';
 import autobind from 'autobind-decorator';
-import { visits } from '../../api/mockVisitApi';
+// import { visits } from '../../api/mockVisitApi';
 import { searchSupervisors } from '../../actions/visit.actions';
 
 export const emptyVisitGeneraor = (): IVisit => {
@@ -22,9 +22,11 @@ export const emptyVisitGeneraor = (): IVisit => {
     visitedFirmName: "",
     visitTime: new Date(),
     visitGroup: "",
+    visitGroupRef: 0,
     visitDetails: "",
     idUserRef: "",
-    userName: ""
+    userName: "",
+    visitDuration: null
   }
 }
 
@@ -37,7 +39,7 @@ export class ManageVisitPage extends Component<IManageVisitPageProps, IManageVis
       visit: Object.assign({}, props.visit || emptyVisitGeneraor()),
       errors: {},
       dirty: false,
-      disabled: props.visit.visitDetails ? true : false
+      disabled: false
     }
 
   }
@@ -50,7 +52,6 @@ export class ManageVisitPage extends Component<IManageVisitPageProps, IManageVis
 
   routerWillLeave(nextLocation) {
     if (this.state.dirty) {
-      debugger;
       return "Kaydedilmemiş değişiklikler var. Çıkmak istediğinizden emin misiniz?";
     }
   }
@@ -64,23 +65,25 @@ export class ManageVisitPage extends Component<IManageVisitPageProps, IManageVis
   componentWillReceiveProps(nextProps: IManageVisitPageProps) {
     if (nextProps.visit && this.state.visit.idVisit != nextProps.visit.idVisit)
       this.setState({ visit: Object.assign({}, nextProps.visit) })
-    this.setState(Object.assign(this.state, { disabled: nextProps.visit.visitDetails ? true : false }));
+    // this.setState(Object.assign(this.state, { disabled: nextProps.visit.visitDetails ? true : false }));
   }
 
-  updateVisitState(e: React.FormEvent) {
-    const event = (e.target as HTMLInputElement);
+  updateVisitState(event: any) {
+    event = event.target;
     if (!event.value) {
       var errors = this.state.errors;
-      errors[event.name] = "Bu alnın doldurulması zorunludur.";
+      errors[event.valueName] = "Bu alnın doldurulması zorunludur.";
       this.setState(Object.assign(this.state, { errors }));
     } else {
       var errors = this.state.errors;
-      errors[event.name] = null;
+      errors[event.valueName] = null;
       this.setState(Object.assign(this.state, { errors }));
     }
-    const field = event.name;
+    const valueField = event.valueName;
+    const labelField = event.labelName;
     let visit = this.state.visit;
-    visit[field] = event.value;
+    visit[valueField] = event.value;
+    visit[labelField] = event.label;
     return this.setState({ visit: visit, dirty: true });
   }
 

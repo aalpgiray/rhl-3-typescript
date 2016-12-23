@@ -1,4 +1,4 @@
-import mockVisitApi from '../api/mockVisitApi';
+// import mockVisitApi from '../api/mockVisitApi';
 import { Dispatch, Action } from 'redux';
 import { ActionTypes, IVisit } from '../reducers/visit.reducer';
 import { beginAjaxCall, ajaxCallFailed } from "./ajax.status.actions";
@@ -85,7 +85,7 @@ function searchSupervisorsSuccess(supervisors: KeyValuePair<string, string>[]): 
 export function loadVisits(): any {
   return (dispatch: Dispatch<any>) => {
     dispatch(beginAjaxCall())
-    return mockVisitApi.getAllVisits().then((visits: IVisit[]) => {
+    return VisitApi.GetVisits().then((visits: IVisit[]) => {
       dispatch(loadVisitsSuccess(visits))
     }).catch(e => {
       dispatch(ajaxCallFailed(e));
@@ -98,7 +98,7 @@ export function loadVisits(): any {
 export function saveVisit(visit: IVisit): any {
   return (dispatch: Dispatch<any>) => {
     dispatch(beginAjaxCall())
-    return mockVisitApi.saveVisit(visit).then((savedVisit: IVisit) => {
+    return VisitApi.saveVisit(visit).then((savedVisit: IVisit) => {
       visit.idVisit ?
         dispatch(updateVisitSuccess(savedVisit)) :
         dispatch(createVisitSuccess(savedVisit));
@@ -114,7 +114,7 @@ export function deleteVisit(visit: IVisit): any {
   return (dispatch: Dispatch<any>) => {
     dispatch(beginAjaxCall());
     dispatch(deleteVisitClicked(visit));
-    return mockVisitApi.deleteVisit(visit.idVisit).then(() => {
+    return VisitApi.deleteVisit(visit).then(() => {
       dispatch(deleteVisitSuccess(visit));
     }).catch(e => {
       dispatch(ajaxCallFailed(e));

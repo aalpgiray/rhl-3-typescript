@@ -43,7 +43,9 @@ export interface IVisit {
   userName: string,
   visitTime: Date,
   visitGroup: string,
-  visitDetails: string
+  visitGroupRef: number,
+  visitDetails: string,
+  visitDuration: number
 }
 
 const defaultState: IVisit[] = [];
