@@ -14,11 +14,15 @@ import {
 } from 'material-ui';
 import Select from 'react-select';
 
-import 'react-select/dist/react-select.css';
 import { VisitApi } from '../../api/VisitApi';
 
 const Rgs = require('react-grid-system');
 
+const requiredStyle: CSSProperties = {
+    fontSize: "12px",
+    color: "#ef5350",
+    textIndent: "2px"
+}
 
 interface IVisitForm {
     visit: IVisit;
@@ -41,12 +45,12 @@ interface IVisitForm {
     context: IRouterContext;
     disabledChange: (e: MouseEvent) => void;
     errors?: {
-        visitedFirmName: string;
-        userName: string;
-        visitedCityName: string;
-        visitedTownName: string;
-        visitedVillageName: string;
-        visitGroup: string;
+        visitedFirmRef: string;
+        idUserRef: string;
+        visitedCityRef: string;
+        visitedTownRef: string;
+        visitedVillageRef: string;
+        visitGroupRef: string;
     };
 }
 
@@ -57,7 +61,12 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
     return (
         <Rgs.Container>
             <fieldset
-                style={{ border: "none" }}
+                style={{
+                    border: "none",
+                    borderRadius: "0 0 6px 6px",
+                    background: "white",
+                    padding: "40px"
+                }}
                 disabled={saving || loading || disabled}>
                 <div>
                     <label style={{
@@ -68,8 +77,9 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         color: "rgb(117, 117, 117)",
                         fontFamily: "roboto",
                         fontSize: "12px"
-                    }}>Ziyaret Edilen İşletme <span style={{ color: "red" }}>*</span></label>
+                    }}>Tarımsal İşletme Sahibi <span style={{ color: "red" }}>*</span></label>
                     <Select.Async
+                        clearable={false}
                         loadOptions={(input: string, callback) => {
                             if (input.length >= 4) {
                                 VisitApi.SearchFirm(input).then(res => {
@@ -77,6 +87,10 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                                         options: res.map(r => { return { value: r.Key, label: r.Value } }),
                                     });
                                 })
+                            } else {
+                                callback(null, {
+                                    options: []
+                                });
                             }
                         } }
                         onChange={(e: { value: string, label: string }) => {
@@ -85,17 +99,19 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                                     valueName: "visitedFirmRef",
                                     labelName: "visitedFirmName",
                                     value: e.value,
-                                    label: e.label
+                                    label: e.label.substring(0, e.label.length - 14)
                                 }
                             }
                             onChange(event);
                         } }
                         options={visit.visitedFirmName ? [{ value: visit.visitedFirmRef, label: visit.visitedFirmName }] : []}
                         value={visit.visitedFirmRef}
+                        noResultsText="Bir sonuç bulunamadı. En az dört karakter giriniz."
                         searchPromptText="Bir sonuç bulunamadı. En az dört karakter giriniz."
                         placeholder="Lütfen Seçiniz"
                         name="visitedFirmRef"
                         />
+                    {errors.visitedFirmRef && <span style={requiredStyle}>Bu alanın doldurulması gerekmektedir.</span>}
                 </div>
                 <div style={{ marginTop: "10px" }}>
                     <label style={{
@@ -106,14 +122,21 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         color: "rgb(117, 117, 117)",
                         fontFamily: "roboto",
                         fontSize: "12px"
-                    }}>İşletme Danışmanı <span style={{ color: "red" }}>*</span></label>
+                    }}>TID Personeli <span style={{ color: "red" }}>*</span></label>
                     <Select.Async
-                        loadOptions={(input, callback) => {
-                            VisitApi.SearchSupervisor(input).then(res => {
+                        clearable={false}
+                        loadOptions={(input: string, callback) => {
+                            if (input.length >= 4) {
+                                VisitApi.SearchSupervisor(input).then(res => {
+                                    callback(null, {
+                                        options: res.map(r => { return { value: r.Key, label: r.Value } }),
+                                    });
+                                })
+                            } else {
                                 callback(null, {
-                                    options: res.map(r => { return { value: r.Key, label: r.Value } }),
+                                    options: []
                                 });
-                            })
+                            }
                         } }
                         onChange={(e: { value: string, label: string }) => {
                             let event: any = {
@@ -121,17 +144,20 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                                     valueName: "idUserRef",
                                     labelName: "userName",
                                     value: e.value,
-                                    label: e.label
+                                    label: e.label.substring(0, e.label.length - 14)
                                 }
                             }
                             onChange(event);
                         } }
                         options={visit.idUserRef ? [{ value: visit.idUserRef, label: visit.userName }] : []}
                         value={visit.idUserRef}
+                        loadingPlaceholder="Yükleniyor..."
+                        noResultsText="Bir sonuç bulunamadı. En az bir karakter giriniz."
                         searchPromptText="Bir sonuç bulunamadı.En az bir karakter giriniz."
                         placeholder="Lütfen Seçiniz"
                         name="idUserRef"
                         />
+                    {errors.idUserRef && <span style={requiredStyle}>Bu alanın doldurulması gerekmektedir.</span>}
                 </div>
                 <div style={{ marginTop: "10px" }}>
                     <label style={{
@@ -144,6 +170,7 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         fontSize: "12px"
                     }}>Ziyaret Yapılan İl <span style={{ color: "red" }}>*</span></label>
                     <Select
+                        clearable={false}
                         name="visitedCityRef"
                         noResultsText="Bir sonuç bulunamadı."
                         placeholder="Lütfen Seçiniz"
@@ -162,6 +189,7 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                             citySet(e.value);
                         } }
                         />
+                    {errors.visitedCityRef && <span style={requiredStyle}>Bu alanın doldurulması gerekmektedir.</span>}
                 </div>
                 <div style={{ marginTop: "10px" }}>
                     <label style={{
@@ -174,10 +202,11 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         fontSize: "12px"
                     }}>Ziyaret Yapılan İlçe <span style={{ color: "red" }}>*</span></label>
                     <Select
+                        clearable={false}
                         name="visitedTownRef"
                         noResultsText="Bir sonuç bulunamadı. Lütfen önce il seçiniz."
                         placeholder="Lütfen Seçiniz"
-                        options={towns.length > 0 ? towns.map(c => { return { value: c.Key, label: c.Value } }) : (visit.visitedTownName ? [{ value: visit.visitedTownRef.toString(), label: visit.visitedTownName }] : [])}
+                        options={towns.length > 0 ? towns.map(c => { return { value: c.Key, label: c.Value } }) : (visit.visitedTownRef ? [{ value: visit.visitedTownRef.toString(), label: visit.visitedTownName }] : [])}
                         value={visit.visitedTownRef.toString()}
                         onChange={(e: { value: string, label: string }) => {
                             let event: any = {
@@ -192,6 +221,7 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                             townSet(e.value);
                         } }
                         />
+                    {errors.visitedTownRef && <span style={requiredStyle}>Bu alanın doldurulması gerekmektedir.</span>}
                 </div>
                 <div style={{ marginTop: "10px" }}>
                     <label style={{
@@ -204,10 +234,11 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         fontSize: "12px"
                     }}>Ziyaret Yapılan Mahalle/Köy <span style={{ color: "red" }}>*</span></label>
                     <Select
+                        clearable={false}
                         name="visitedVillageRef"
                         noResultsText="Bir sonuç bulunamadı. Lütfen önce ilçe seçiniz."
                         placeholder="Lütfen Seçiniz"
-                        options={villages.length > 0 ? villages.map(c => { return { value: c.Key, label: c.Value } }) : (visit.visitedVillageName ? [{ value: visit.visitedVillageRef.toString(), label: visit.visitedVillageName }] : [])}
+                        options={villages.length > 0 ? villages.map(c => { return { value: c.Key, label: c.Value } }) : (visit.visitedVillageRef ? [{ value: visit.visitedVillageRef.toString(), label: visit.visitedVillageName }] : [])}
                         value={visit.visitedVillageRef.toString()}
                         onChange={(e: { value: string, label: string }) => {
                             let event: any = {
@@ -221,6 +252,7 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                             onChange(event);
                         } }
                         />
+                    {errors.visitedVillageRef && <span style={requiredStyle}>Bu alanın doldurulması gerekmektedir.</span>}
                 </div>
                 <div style={{ marginTop: "10px" }}>
                     <label style={{
@@ -231,18 +263,20 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         color: "rgb(117, 117, 117)",
                         fontFamily: "roboto",
                         fontSize: "12px"
-                    }}>Ziyaret Grubu <span style={{ color: "red" }}>*</span></label>
+                    }}>İşletme Faaliyet Konusu <span style={{ color: "red" }}>*</span></label>
                     <Select
-                        name="visitGroup"
+                        clearable={false}
+                        name="visitGroupRef"
                         noResultsText="Bir sonuç bulunamadı."
                         placeholder="Lütfen Seçiniz"
                         options={[{ value: 1, label: "HAYVANCILIK" }, { value: 2, label: "BİTKİSEL" }]}
                         value={visit.visitGroupRef}
+                        style={{ zIndex: "900" }}
                         onChange={(e: { value: string, label: string }) => {
                             let event: any = {
                                 target: {
-                                    valueName: "visitGroup",
-                                    labelName: "visitGroupRef",
+                                    valueName: "visitGroupRef",
+                                    labelName: "visitGroup",
                                     value: e.value,
                                     label: e.label
                                 }
@@ -250,6 +284,7 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                             onChange(event);
                         } }
                         />
+                    {errors.visitGroupRef && <span style={requiredStyle}>Bu alanın doldurulması gerekmektedir.</span>}
                 </div>
                 <div style={{ position: "relative", paddingTop: "25px" }}>
                     <label style={{
@@ -263,7 +298,7 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                         color: "rgb(117, 117, 117)",
                         transform: "scale(0.75) translate(0px, -28px)",
                         fontFamily: "roboto",
-                    }}>Ziyaret Zamanı <span style={{ color: "red" }}>*</span></label>
+                    }}>Ziyaret Başlangıç Zamanı <span style={{ color: "red" }}>*</span></label>
                     <div style={{ display: "flex" }}>
                         <DatePicker
                             textFieldStyle={{
@@ -277,6 +312,7 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                             disabled={saving || loading || disabled}
                             locale="tr-TR"
                             mode="landscape"
+                            maxDate={new Date()}
                             onChange={(e, date: Date) => {
                                 date.setHours(visit.visitTime.getHours());
                                 date.setMinutes(visit.visitTime.getMinutes());
@@ -299,6 +335,7 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                             } }
                             okLabel="Tamam"
                             cancelLabel="İptal"
+
                             value={visit.visitTime}
                             name="visitTime"
                             disabled={saving || loading || disabled}
@@ -321,12 +358,30 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                             format="24hr" />
                     </div>
                 </div>
-
                 <div>
                     <TextField
                         fullWidth={true}
-                        floatingLabelText="Ziyaret Detayı"
+                        floatingLabelStyle={{ zIndex: "0" }}
+                        floatingLabelText="Ziyaret Süresi (dk)"
+                        onChange={(e) => {
+                            let event: any = {
+                                target: {
+                                    valueName: "visitDuration",
+                                    value: e.target.value,
+                                }
+                            }
+                            onChange(event);
+                        } }
+                        name="visitDuration"
+                        className="form-control"
+                        value={visit.visitDuration} />
+                </div>
+                <div>
+                    <TextField
+                        fullWidth={true}
+                        floatingLabelText="Ziyaret Konusu ve İçeriği"
                         multiLine={true}
+                        type={"number"}
                         onChange={(e) => {
                             let event: any = {
                                 target: {
@@ -361,12 +416,12 @@ export const VisitForm = ({visit, onSave, onChange, saving, errors, loading, dis
                     <RaisedButton
                         disabled={saving || disabled || (() => {
 
-                            if (errors.visitedFirmName) return true;
-                            if (errors.userName) return true;
-                            if (errors.visitedCityName) return true;
-                            if (errors.visitedTownName) return true;
-                            if (errors.visitedVillageName) return true;
-                            if (errors.visitGroup) return true;
+                            if (errors.visitedFirmRef) return true;
+                            if (errors.idUserRef) return true;
+                            if (errors.visitedCityRef) return true;
+                            if (errors.visitedTownRef) return true;
+                            if (errors.visitedVillageRef) return true;
+                            if (errors.visitGroupRef) return true;
 
                             return false;
                         })()}

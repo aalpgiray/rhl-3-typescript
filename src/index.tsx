@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from "./store/store";
 
 import "../node_modules/toastr/build/toastr.min.css";
+import '../node_modules/react-select/dist/react-select.css';
 
 const rootEl = document.getElementById('root') || document.body;
 

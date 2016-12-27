@@ -52,34 +52,37 @@ export default class Layout extends Component<ILayoutProps, ILayoutState>{
     return (
       <div class="container-fluid">
         {this.props.loading && <ProgressBar style={progressStyle} />}
-        <AppBar
-          title={
-            <div style={{ display: "flex" }}>
-              <Link to="/" activeStyle={{ backgroundColor: "#1E88E5" }} style={{ textDecoration: "none" }}><MenuItem style={{ color: "white" }} primaryText="Tarımsal İşletme Danışmanlığı" /></Link>
-              <Link to="/Visit" activeStyle={{ backgroundColor: "#1E88E5" }} style={{ textDecoration: "none" }}><MenuItem style={{ color: "white" }} primaryText="Ziyaret Kayıtları" /></Link>
-            </div>
-          }
-          showMenuIconButton={false}
-          // onLeftIconButtonTouchTap={this.toogleDrawer}
-          iconElementRight={<IconMenu
-            iconButtonElement={
-              <IconButton><MoreVertIcon /></IconButton>
-            }
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            >
-            <MenuItem primaryText="Çıkış" />
-          </IconMenu>}
-          />
+        {
+          // <AppBar
+          //   title={
+          //     <div style={{ display: "flex" }}>
+          //       <Link to="/" activeStyle={{ backgroundColor: "#1E88E5" }} style={{ textDecoration: "none" }}><MenuItem style={{ color: "white" }} primaryText="Tarımsal İşletme Danışmanlığı" /></Link>
+          //       <Link to="/Visit" activeStyle={{ backgroundColor: "#1E88E5" }} style={{ textDecoration: "none" }}><MenuItem style={{ color: "white" }} primaryText="Ziyaret Kayıtları" /></Link>
+          //     </div>
+          //   }
+          //   showMenuIconButton={false}
+          //   // onLeftIconButtonTouchTap={this.toogleDrawer}
+          //   iconElementRight={<IconMenu
+          //     iconButtonElement={
+          //       <IconButton><MoreVertIcon /></IconButton>
+          //     }
+          //     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          //     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+          //     >
+          //     <MenuItem primaryText="Çıkış" />
+          //   </IconMenu>}
+          //   />
 
-        <Drawer
-          docked={false}
-          open={this.state.drawer}
-          onRequestChange={(drawer) => this.setState({ drawer })}
-          >
-          <Link to="/" onTouchTap={this.toogleDrawer}><MenuItem primaryText="Tarımsal İşletme Danışmanlığı" /></Link>
-          <Link to="/Visit" onTouchTap={this.toogleDrawer}><MenuItem primaryText="Ziyaret Kayıtları" /></Link>
-        </Drawer>
+          // <Drawer
+          //   docked={false}
+          //   open={this.state.drawer}
+          //   onRequestChange={(drawer) => this.setState({ drawer })}
+          //   >
+          //   <Link to="/" onTouchTap={this.toogleDrawer}><MenuItem primaryText="Tarımsal İşletme Danışmanlığı" /></Link>
+          //   <Link to="/Visit" onTouchTap={this.toogleDrawer}><MenuItem primaryText="Ziyaret Kayıtları" /></Link>
+          // </Drawer>
+        }
+
         {this.props.children}
       </div>
     )

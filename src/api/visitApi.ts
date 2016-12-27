@@ -4,7 +4,7 @@ import { IVisit } from '../reducers/visit.reducer';
 
 export class VisitApi {
     static GetCities() {
-        return axios.get<{ IdCity: number, CityName: string }[]>("http://localhost:5000/tid/supervision/GetCities").then(res => {
+        return axios.get<{ IdCity: number, CityName: string }[]>("http://testair.tarsey.gov.tr/tid/supervision/GetCities").then(res => {
             return res.data.map((d) => {
                 let city: KeyValuePair<string, string> = { Key: d.IdCity.toString(), Value: d.CityName };
                 return city;
@@ -13,7 +13,7 @@ export class VisitApi {
     }
 
     static GetTowns(idCity: string) {
-        return axios.get<{ IdTown: number, TownName: string }[]>("http://localhost:5000/tid/supervision/GetTowns?idCityRef=" + idCity).then(res => {
+        return axios.get<{ IdTown: number, TownName: string }[]>("http://testair.tarsey.gov.tr/tid/supervision/GetTowns?idCityRef=" + idCity).then(res => {
             return res.data.map((d) => {
                 let town: KeyValuePair<string, string> = { Key: d.IdTown.toString(), Value: d.TownName };
                 return town;
@@ -22,7 +22,7 @@ export class VisitApi {
     }
 
     static GetVillages(idTown: string) {
-        return axios.get<{ IdVillage: number, VillageName: string }[]>("http://localhost:5000/tid/supervision/GetVillages?idTownRef=" + idTown).then(res => {
+        return axios.get<{ IdVillage: number, VillageName: string }[]>("http://testair.tarsey.gov.tr/tid/supervision/GetVillages?idTownRef=" + idTown).then(res => {
             return res.data.map((d) => {
                 let village: KeyValuePair<string, string> = { Key: d.IdVillage.toString(), Value: d.VillageName };
                 return village;
@@ -31,25 +31,25 @@ export class VisitApi {
     }
 
     static SearchSupervisor(searchTerm: string) {
-        return axios.get<{ IdUser: string, UserName: string }[]>("http://localhost:5000/tid/supervision/SearchSupervisor?searchTerm=" + searchTerm).then(res => {
+        return axios.get<{ IdUser: string, UserName: string, TCKNO: string }[]>("http://testair.tarsey.gov.tr/tid/supervision/SearchSupervisor?searchTerm=" + searchTerm).then(res => {
             return res.data.map((d) => {
-                let user: KeyValuePair<string, string> = { Key: d.IdUser, Value: d.UserName };
+                let user: KeyValuePair<string, string> = { Key: d.IdUser, Value: `${d.UserName} (${d.TCKNO.substring(0, 3)}*****${d.TCKNO.substring(8, 11)})` };
                 return user;
             });
         })
     }
 
     static SearchFirm(searchTerm: string) {
-        return axios.get<{ IdFirm: string, FirmName: string }[]>("http://localhost:5000/tid/supervision/SearchFirms?searchTerm=" + searchTerm).then(res => {
+        return axios.get<{ IdFirm: string, FirmName: string, IDNO: string }[]>("http://testair.tarsey.gov.tr/tid/supervision/SearchFirms?searchTerm=" + searchTerm).then(res => {
             return res.data.map((d) => {
-                let user: KeyValuePair<string, string> = { Key: d.IdFirm, Value: d.FirmName };
+                let user: KeyValuePair<string, string> = { Key: d.IdFirm, Value: `${d.FirmName} (${d.IDNO.substring(0, 3)}*****${d.IDNO.substring(8, 11)})` };
                 return user;
             });
         })
     }
 
     static GetVisits() {
-        return axios.get<visitData[]>("http://localhost:5000/tid/supervision/GetVisits").then(res => {
+        return axios.get<visitData[]>("http://testair.tarsey.gov.tr/tid/supervision/GetVisits").then(res => {
             return res.data.map(v => {
                 var visit: IVisit = {
                     idVisit: v.IdVisit,
@@ -81,7 +81,7 @@ export class VisitApi {
             IdUserRef_Supervisor: visit.idUserRef,
             IdFirmRef: visit.visitedFirmRef,
             IdSupervisionTypeRef: visit.visitGroupRef,
-            DateVisit: visit.visitTime.toISOString(),
+            DateVisit: visit.visitTime.toISOString().substring(0, visit.visitTime.toISOString().length - 5),
             VisitDuration_min: visit.visitDuration,
             SupervisorComment: visit.visitDetails,
             Status: 1,
@@ -99,7 +99,7 @@ export class VisitApi {
             s_Name: visit.userName,
             SupervisionTypeName: visit.visitGroup
         }
-        return axios.post("http://localhost:5000/tid/supervision/UpsertVisit", updateVisit).then(res => {
+        return axios.post("http://testair.tarsey.gov.tr/tid/supervision/UpsertVisit", updateVisit).then(res => {
             return visit;
         })
     }
@@ -128,7 +128,7 @@ export class VisitApi {
             s_Name: visit.userName,
             SupervisionTypeName: visit.visitGroup
         }
-        return axios.post("http://localhost:5000/tid/supervision/UpsertVisit", updateVisit).then(res => {
+        return axios.post("http://testair.tarsey.gov.tr/tid/supervision/UpsertVisit", updateVisit).then(res => {
             return visit;
         })
     }

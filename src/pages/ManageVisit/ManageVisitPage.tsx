@@ -11,7 +11,7 @@ import { searchSupervisors } from '../../actions/visit.actions';
 
 export const emptyVisitGeneraor = (): IVisit => {
   return {
-    idVisit: "",
+    idVisit: "00000000-0000-0000-0000-000000000000",
     visitedCityRef: 0,
     visitedCityName: "",
     visitedTownRef: 0,
@@ -26,7 +26,7 @@ export const emptyVisitGeneraor = (): IVisit => {
     visitDetails: "",
     idUserRef: "",
     userName: "",
-    visitDuration: null
+    visitDuration: 60
   }
 }
 
@@ -106,37 +106,32 @@ export class ManageVisitPage extends Component<IManageVisitPageProps, IManageVis
     let errors: any = {};
 
     if (!this.state.visit.userName) {
-      errors.userName = 'Bu alnın doldurulması zorunludur.';
+      errors.idUserRef = 'Bu alnın doldurulması zorunludur.';
       formIsValid = false;
     }
 
     if (!this.state.visit.visitedFirmName) {
-      errors.visitedFirmName = 'Bu alnın doldurulması zorunludur.';
+      errors.visitedFirmRef = 'Bu alnın doldurulması zorunludur.';
       formIsValid = false;
     }
 
     if (!this.state.visit.visitedCityName) {
-      errors.visitedCityName = 'Bu alnın doldurulması zorunludur.';
+      errors.visitedCityRef = 'Bu alnın doldurulması zorunludur.';
       formIsValid = false;
     }
 
     if (!this.state.visit.visitedTownName) {
-      errors.visitedTownName = 'Bu alnın doldurulması zorunludur.';
+      errors.visitedTownRef = 'Bu alnın doldurulması zorunludur.';
       formIsValid = false;
     }
 
     if (!this.state.visit.visitedVillageName) {
-      errors.visitedVillageName = 'Bu alnın doldurulması zorunludur.';
+      errors.visitedVillageRef = 'Bu alnın doldurulması zorunludur.';
       formIsValid = false;
     }
 
     if (!this.state.visit.visitGroup) {
-      errors.visitGroup = 'Bu alnın doldurulması zorunludur.';
-      formIsValid = false;
-    }
-
-    if (!this.state.visit.visitTime) {
-      errors.visitTime = 'Bu alnın doldurulması zorunludur.';
+      errors.visitGroupRef = 'Bu alnın doldurulması zorunludur.';
       formIsValid = false;
     }
 

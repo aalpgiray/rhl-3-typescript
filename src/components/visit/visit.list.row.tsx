@@ -17,8 +17,8 @@ export const VisitListRow = ({visit, deleteCallback}: { visit: IVisit, deleteCal
         <TableRow onTouchTap={() => {
             browserHistory.push('/ManageVisit/' + visit.idVisit);
         } } style={{ cursor: "pointer" }}>
-            <TableRowColumn>{visit.userName}</TableRowColumn>
-            <TableRowColumn>{visit.visitedFirmName}</TableRowColumn>
+            <TableRowColumn><Link to="/ManageVisit">{visit.userName}</Link></TableRowColumn>
+            <TableRowColumn><Link to="/ManageVisit">{visit.visitedFirmName}</Link></TableRowColumn>
             <TableRowColumn>{visit.visitedCityName}</TableRowColumn>
             <TableRowColumn>{visit.visitedTownName}</TableRowColumn>
             <TableRowColumn>{visit.visitedVillageName}</TableRowColumn>
